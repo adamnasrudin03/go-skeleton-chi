@@ -57,6 +57,16 @@ func (c *TeamMemberHandler) Mount(r chi.Router) {
 
 }
 
+func (c *TeamMemberHandler) getParamID(r *http.Request) (uint64, error) {
+	idParam := strings.TrimSpace(chi.URLParam(r, "id"))
+	id, err := strconv.ParseUint(idParam, 10, 32)
+	if err != nil {
+		c.Logger.Errorf("TeamMemberController-getParamID error parse param: %v ", err)
+		return 0, response_mapper.ErrInvalid("ID Anggota team", "Team Member ID")
+	}
+	return id, nil
+}
+
 func (c *TeamMemberHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var (
 		opName = "TeamMemberController-Create"
@@ -89,20 +99,19 @@ func (c *TeamMemberHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 func (c *TeamMemberHandler) GetDetail(w http.ResponseWriter, r *http.Request) {
 	var (
-		opName  = "TeamMemberController-GetDetail"
-		idParam = strings.TrimSpace(chi.URLParam(r, "id"))
-		err     error
+		opName = "TeamMemberController-GetDetail"
+		err    error
 	)
 
-	id, err := strconv.ParseUint(idParam, 10, 32)
+	id, err := c.getParamID(r)
 	if err != nil {
-		c.Logger.Errorf("%v error parse param: %v ", opName, err)
-		response_mapper.RenderJSON(w, http.StatusBadRequest, response_mapper.ErrInvalid("ID Anggota team", "Team Member ID"))
+		response_mapper.RenderJSON(w, http.StatusBadRequest, err)
 		return
 	}
 
 	res, err := c.Service.GetByID(r.Context(), id)
 	if err != nil {
+		c.Logger.Errorf("%v error: %v ", opName, err)
 		response_mapper.RenderJSON(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -112,20 +121,19 @@ func (c *TeamMemberHandler) GetDetail(w http.ResponseWriter, r *http.Request) {
 
 func (c *TeamMemberHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	var (
-		opName  = "TeamMemberController-Delete"
-		idParam = strings.TrimSpace(chi.URLParam(r, "id"))
-		err     error
+		opName = "TeamMemberController-Delete"
+		err    error
 	)
 
-	id, err := strconv.ParseUint(idParam, 10, 32)
+	id, err := c.getParamID(r)
 	if err != nil {
-		c.Logger.Errorf("%v error parse param: %v ", opName, err)
-		response_mapper.RenderJSON(w, http.StatusBadRequest, response_mapper.ErrInvalid("ID Anggota team", "Team Member ID"))
+		response_mapper.RenderJSON(w, http.StatusBadRequest, err)
 		return
 	}
 
 	err = c.Service.DeleteByID(r.Context(), id)
 	if err != nil {
+		c.Logger.Errorf("%v error: %v ", opName, err)
 		response_mapper.RenderJSON(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -138,16 +146,14 @@ func (c *TeamMemberHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 func (c *TeamMemberHandler) Update(w http.ResponseWriter, r *http.Request) {
 	var (
-		opName  = "TeamMemberController-Update"
-		idParam = strings.TrimSpace(chi.URLParam(r, "id"))
-		input   dto.TeamMemberUpdateReq
-		err     error
+		opName = "TeamMemberController-Update"
+		input  dto.TeamMemberUpdateReq
+		err    error
 	)
 
-	id, err := strconv.ParseUint(idParam, 10, 32)
+	id, err := c.getParamID(r)
 	if err != nil {
-		c.Logger.Errorf("%v error parse param: %v ", opName, err)
-		response_mapper.RenderJSON(w, http.StatusBadRequest, response_mapper.ErrInvalid("ID Anggota team", "Team Member ID"))
+		response_mapper.RenderJSON(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -167,6 +173,7 @@ func (c *TeamMemberHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 	err = c.Service.Update(r.Context(), input)
 	if err != nil {
+		c.Logger.Errorf("%v error: %v ", opName, err)
 		response_mapper.RenderJSON(w, http.StatusInternalServerError, err)
 		return
 	}
