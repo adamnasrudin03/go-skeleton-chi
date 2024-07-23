@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -177,7 +176,6 @@ func (c *TeamMemberHandler) GetList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(input)
 	res, err := c.Service.GetList(r.Context(), input)
 	if err != nil {
 		c.Logger.Errorf("%v error: %v ", opName, err)
