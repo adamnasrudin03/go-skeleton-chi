@@ -29,15 +29,15 @@ type TeamMemberUpdateReq struct {
 }
 
 type TeamMemberListReq struct {
-	Search            string `json:"search" query:"search"`
-	Limit             int    `json:"limit" query:"limit"`
-	Offset            int    `json:"offset" query:"offset"`
-	Page              int    `json:"page" query:"page"`
-	OrderBy           string `json:"order_by" query:"order_by"`
-	SortBy            string `json:"sort_by" query:"sort_by"`
-	IsNoLimit         bool   `json:"is_no_limit" query:"is_no_limit"`
-	IsNotDefaultQuery bool   `json:"is_not_default_query" query:"is_not_default_query"`
-	CustomColumns     string `json:"custom_columns" query:"custom_columns"`
+	Search            string `json:"search"`
+	Limit             int    `json:"limit"`
+	Offset            int    `json:"offset"`
+	Page              int    `json:"page"`
+	OrderBy           string `json:"order_by"`
+	SortBy            string `json:"sort_by"`
+	IsNoLimit         bool   `json:"is_no_limit"`
+	IsNotDefaultQuery bool   `json:"is_not_default_query"`
+	CustomColumns     string `json:"custom_columns"`
 }
 
 func (m *TeamMemberListReq) Validate() error {

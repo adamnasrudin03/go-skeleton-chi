@@ -163,13 +163,13 @@ func (c *TeamMemberHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 func (c *TeamMemberHandler) GetList(w http.ResponseWriter, r *http.Request) {
 	var (
-		opName = "TeamMemberController-GetList"
-		query  = r.URL.Query()
-		input  dto.TeamMemberListReq
-		err    error
+		opName  = "TeamMemberController-GetList"
+		decoder = help.NewHttpDecoder()
+		input   dto.TeamMemberListReq
+		err     error
 	)
 
-	err = help.NewQueryDecoder(query).Decode(&input)
+	err = decoder.Query(r, &input)
 	if err != nil {
 		c.Logger.Errorf("%v error bind json: %v ", opName, err)
 		response_mapper.RenderJSON(w, http.StatusBadRequest, response_mapper.ErrGetRequest())
