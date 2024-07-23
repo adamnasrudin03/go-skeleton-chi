@@ -46,11 +46,11 @@ services:
       - BASIC_PASSWORD=Secret123
       - DB_USER=postgres
       - DB_PASS=postgres
-      - DB_HOST=192.168.8.102 # Change IP address
+      - DB_HOST=localhost # Change IP address
       - DB_PORT=5432
       - DB_NAME=my_db
       - DB_ISMIGRATE=true
-      - REDIS_HOST=192.168.8.102 # Change IP address
+      - REDIS_HOST=localhost # Change IP address
       - REDIS_PORT=6379
       - REDIS_MASTER=master
       - REDIS_PASSWORD=
