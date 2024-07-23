@@ -14,20 +14,20 @@ import (
 )
 
 type routes struct {
-	router *chi.Mux
+	HttpServer *chi.Mux
 }
 
 func NewRoutes(h controller.Controllers) routes {
 	var err error
 	r := routes{
-		router: chi.NewRouter(),
+		HttpServer: chi.NewRouter(),
 	}
 
-	r.router.Use(middleware.Logger)
-	r.router.Use(middleware.Recoverer)
+	r.HttpServer.Use(middleware.Logger)
+	r.HttpServer.Use(middleware.Recoverer)
 	// Basic CORS
 	// for more ideas, see: https://developer.github.com/v3/#cross-origin-resource-sharing
-	r.router.Use(cors.Handler(cors.Options{
+	r.HttpServer.Use(cors.Handler(cors.Options{
 		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
 		AllowedOrigins: []string{"https://*", "http://*"},
 		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
@@ -38,15 +38,17 @@ func NewRoutes(h controller.Controllers) routes {
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 
-	r.router.Use(middleware.Timeout(60 * time.Second))
-	r.router.Use(render.SetContentType(render.ContentTypeJSON))
+	r.HttpServer.Use(middleware.Timeout(60 * time.Second))
+	r.HttpServer.Use(render.SetContentType(render.ContentTypeJSON))
 
-	r.router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		response_mapper.RenderJSON(w, http.StatusOK, "welcome this server")
+	r.HttpServer.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		response_mapper.RenderJSON(w, http.StatusOK, response_mapper.NewResponseMultiLang(response_mapper.MultiLanguages{
+			ID: "selamat datang di server ini",
+			EN: "Welcome this server",
+		}))
 	})
-	r.teamMember(h.TeamMember)
 
-	r.router.NotFound(func(w http.ResponseWriter, r *http.Request) {
+	r.HttpServer.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		err = response_mapper.ErrRouteNotFound()
 		response_mapper.RenderJSON(w, http.StatusNotFound, err)
 	})
@@ -54,6 +56,6 @@ func NewRoutes(h controller.Controllers) routes {
 }
 
 func (r routes) Run(addr string) error {
-	server := &http.Server{Addr: addr, Handler: r.router}
+	server := &http.Server{Addr: addr, Handler: r.HttpServer}
 	return server.ListenAndServe()
 }

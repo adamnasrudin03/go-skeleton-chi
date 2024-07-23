@@ -9,6 +9,7 @@ import (
 	help "github.com/adamnasrudin03/go-helpers"
 	response_mapper "github.com/adamnasrudin03/go-helpers/response-mapper/v1"
 	"github.com/adamnasrudin03/go-skeleton-chi/app/dto"
+	"github.com/adamnasrudin03/go-skeleton-chi/app/middlewares"
 	"github.com/adamnasrudin03/go-skeleton-chi/app/service"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-playground/validator/v10"
@@ -16,6 +17,7 @@ import (
 )
 
 type TeamMemberController interface {
+	Mount(r chi.Router)
 	Create(w http.ResponseWriter, r *http.Request)
 	GetDetail(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
@@ -39,6 +41,20 @@ func NewTeamMemberDelivery(
 		Logger:   logger,
 		Validate: validator,
 	}
+}
+
+func (c *TeamMemberHandler) Mount(r chi.Router) {
+	r.Route("/v1/team-members", func(r chi.Router) {
+		r.With(middlewares.SetAuthBasic()).Route("/", func(r chi.Router) {
+			r.Post("/", c.Create)
+			r.Delete("/{id}", c.Delete)
+			r.Put("/{id}", c.Update)
+		})
+
+		r.Get("/", c.GetList)
+		r.Get("/{id}", c.GetDetail)
+	})
+
 }
 
 func (c *TeamMemberHandler) Create(w http.ResponseWriter, r *http.Request) {
