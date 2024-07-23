@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "97f2cb34-68bd-4214-bfb9-85946f586bef",
+		"name": "go-skeleton",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10619265"
+	},
+	"item": [
+		{
+			"name": "team member",
+			"item": [
+				{
+					"name": "Get By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/v1/team-members/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"team-members",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "user-1",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Secret123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/v1/team-members/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"team-members",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "user-1",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Secret123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Adam 6\",\r\n    \"username_github\": \"adam6\",\r\n    \"email\": \"adam6@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/v1/team-members",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"team-members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "user-1",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Secret123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Adam 6 updated\",\r\n    \"username_github\": \"adam6updated\",\r\n    \"email\": \"adam6updated@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/v1/team-members/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"team-members",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/v1/team-members?page=1&limit=5&order_by=DESC&sort_by=created_at&search=@example.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"team-members"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "default 1"
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"description": "default 10"
+								},
+								{
+									"key": "order_by",
+									"value": "DESC",
+									"description": "ASC / DESC"
+								},
+								{
+									"key": "sort_by",
+									"value": "created_at",
+									"description": "field name"
+								},
+								{
+									"key": "search",
+									"value": "@example.com",
+									"description": "by email"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
