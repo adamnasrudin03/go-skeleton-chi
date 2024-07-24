@@ -56,6 +56,12 @@ func NewRoutes(h controller.Controllers) routes {
 }
 
 func (r routes) Run(addr string) error {
-	server := &http.Server{Addr: addr, Handler: r.HttpServer}
+	server := &http.Server{
+		Addr:         addr,
+		WriteTimeout: time.Second * 15,
+		ReadTimeout:  time.Second * 15,
+		IdleTimeout:  time.Second * 60,
+		Handler:      r.HttpServer,
+	}
 	return server.ListenAndServe()
 }
