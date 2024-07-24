@@ -5,7 +5,6 @@ import (
 	"time"
 
 	response_mapper "github.com/adamnasrudin03/go-helpers/response-mapper/v1"
-	"github.com/adamnasrudin03/go-skeleton-chi/app/controller"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -17,7 +16,7 @@ type routes struct {
 	HttpServer *chi.Mux
 }
 
-func NewRoutes(h controller.Controllers) routes {
+func NewRoutes() routes {
 	var err error
 	r := routes{
 		HttpServer: chi.NewRouter(),
