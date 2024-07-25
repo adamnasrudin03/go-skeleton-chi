@@ -41,10 +41,10 @@ func NewRoutes() routes {
 	r.HttpServer.Use(render.SetContentType(render.ContentTypeJSON))
 
 	r.HttpServer.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		response_mapper.RenderJSON(w, http.StatusOK, response_mapper.NewResponseMultiLang(response_mapper.MultiLanguages{
+		response_mapper.RenderJSON(w, http.StatusOK, response_mapper.MultiLanguages{
 			ID: "selamat datang di server ini",
 			EN: "Welcome this server",
-		}))
+		})
 	})
 
 	r.HttpServer.NotFound(func(w http.ResponseWriter, r *http.Request) {
