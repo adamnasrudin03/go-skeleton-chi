@@ -33,14 +33,14 @@ func NewTeamMemberService(
 	cfg *configs.Configs,
 	logger *logrus.Logger,
 ) TeamMemberService {
-	return TeamMemberSrv{
+	return &TeamMemberSrv{
 		Repo:   tmRepo,
 		Cfg:    cfg,
 		Logger: logger,
 	}
 }
 
-func (s TeamMemberSrv) Create(ctx context.Context, req dto.TeamMemberCreateReq) (*models.TeamMember, error) {
+func (s *TeamMemberSrv) Create(ctx context.Context, req dto.TeamMemberCreateReq) (*models.TeamMember, error) {
 	var (
 		opName = "TeamMemberService-Create"
 		err    error
@@ -71,7 +71,7 @@ func (s TeamMemberSrv) Create(ctx context.Context, req dto.TeamMemberCreateReq) 
 	return resp, nil
 }
 
-func (s TeamMemberSrv) GetByID(ctx context.Context, id uint64) (*models.TeamMember, error) {
+func (s *TeamMemberSrv) GetByID(ctx context.Context, id uint64) (*models.TeamMember, error) {
 	var (
 		opName = "TeamMemberService-GetByID"
 		err    error
@@ -102,7 +102,7 @@ func (s TeamMemberSrv) GetByID(ctx context.Context, id uint64) (*models.TeamMemb
 	return detail, nil
 }
 
-func (s TeamMemberSrv) DeleteByID(ctx context.Context, id uint64) error {
+func (s *TeamMemberSrv) DeleteByID(ctx context.Context, id uint64) error {
 	var (
 		opName = "TeamMemberService-DeleteByID"
 		key    = models.KeyCacheTeamMemberDetail(id)
@@ -126,7 +126,7 @@ func (s TeamMemberSrv) DeleteByID(ctx context.Context, id uint64) error {
 	return nil
 }
 
-func (s TeamMemberSrv) Update(ctx context.Context, req dto.TeamMemberUpdateReq) error {
+func (s *TeamMemberSrv) Update(ctx context.Context, req dto.TeamMemberUpdateReq) error {
 	var (
 		opName = "TeamMemberService-Update"
 		key    = models.KeyCacheTeamMemberDetail(req.ID)
@@ -163,7 +163,7 @@ func (s TeamMemberSrv) Update(ctx context.Context, req dto.TeamMemberUpdateReq) 
 	return nil
 }
 
-func (s TeamMemberSrv) GetList(ctx context.Context, req dto.TeamMemberListReq) (*response_mapper.Pagination, error) {
+func (s *TeamMemberSrv) GetList(ctx context.Context, req dto.TeamMemberListReq) (*response_mapper.Pagination, error) {
 	var (
 		opName = "TeamMemberService-GetList"
 		err    error

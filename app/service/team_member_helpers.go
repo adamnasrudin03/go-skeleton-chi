@@ -7,7 +7,7 @@ import (
 	"github.com/adamnasrudin03/go-skeleton-chi/app/dto"
 )
 
-func (s TeamMemberSrv) checkDuplicate(ctx context.Context, req dto.TeamMemberDetailReq) error {
+func (s *TeamMemberSrv) checkDuplicate(ctx context.Context, req dto.TeamMemberDetailReq) error {
 	var (
 		opName = "TeamMemberService-checkDuplicate"
 		err    error
